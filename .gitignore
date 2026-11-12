@@ -1,0 +1,14 @@
+# Personal data must never be committed. Keep your workspace (profile, resumes,
+# cover letters, tracker) outside this repo, e.g. ~/Documents/job-hunt.
+profile.json
+letter.json
+*.docx
+*.pdf
+skipped_jobs.json
+Job_Applications_Tracker*.xlsx
+!skills/aussie-job-hunt/templates/Job_Applications_Tracker.xlsx
+~$*
+.env
+*.env
+.DS_Store
+__pycache__/

@@ -1,0 +1,13 @@
+{
+  "name": "aussie-job-hunt",
+  "owner": {
+    "name": "AmalJose-01"
+  },
+  "plugins": [
+    {
+      "name": "aussie-job-hunt",
+      "source": "./",
+      "description": "Australian job hunting with Claude Code: SEEK and LinkedIn search, scoring, Australian-standard resumes and cover letters, and an Excel tracker."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "file_name": "Cover_Letter_Example_Co",
+  "headline": "Full Stack Developer  |  React · TypeScript · C# / .NET",
+  "addressee": ["Hiring Manager", "Example Co", "Melbourne VIC"],
+  "re": "Re: Full Stack Developer (Ref 12345)",
+  "salutation": "Dear Hiring Manager,",
+  "paragraphs": [
+    "I'm applying for the Full Stack Developer role advertised on SEEK. I'm genuinely interested in Example Co because your booking platform serves thousands of small businesses, and I'd like my work to make their day easier.",
+    "## React, TypeScript and .NET in production",
+    "At Example Co I build features end to end: React + TypeScript screens on ASP.NET Core Web APIs and SQL Server. When a caching bug showed stale prices, I traced the root cause, fixed it and added tests so it didn't recur.",
+    "To be upfront: I haven't used Kubernetes in production. I learn new tools quickly and would ramp up on your platform early.",
+    "I'm available with two weeks' notice and would welcome the chance to discuss the role. Thank you for considering my application."
+  ],
+  "sign_off": "Kind regards,"
+}

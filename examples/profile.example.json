@@ -1,0 +1,87 @@
+{
+  "name": "Alex Citizen",
+  "file_prefix": "Alex_Citizen",
+  "contact": {
+    "phone": "0400 000 000",
+    "email": "alex.citizen@example.com",
+    "linkedin_url": "https://www.linkedin.com/in/alex-citizen-example/",
+    "linkedin_text": "linkedin.com/in/alex-citizen-example",
+    "location": "Melbourne, VIC"
+  },
+  "work_rights": "Australian citizen",
+  "mention_visa_in_documents": false,
+  "notice_period": "2 weeks",
+  "salary_expectation": "$95,000 + super, negotiable",
+  "never_claim": ["Java", "Python", "AWS", "Kubernetes", "Angular"],
+
+  "search": {
+    "queries": ["full stack developer", "software engineer", "react developer", ".net developer"],
+    "locations": ["Melbourne-VIC", "Victoria-VIC", "remote"]
+  },
+
+  "resume_variants": {
+    "fullstack": {
+      "headline": "Full Stack Developer  |  React · TypeScript · Node.js · C# / .NET · SQL",
+      "summary": "Full stack developer building and supporting production web applications for retail and health. At Example Co I build React + TypeScript features on ASP.NET Core Web APIs and SQL Server. I've also built and run a production booking platform end to end, with payments, authentication and CI/CD."
+    },
+    "frontend": {
+      "headline": "Front End Developer  |  React · TypeScript · Accessibility · Testing",
+      "summary": "Front end developer building fast, accessible React + TypeScript interfaces for retail and health. I care about clean components, accessibility and reliable releases.",
+      "skills_order": ["Frontend", "Quality", "Backend", "Data", "Delivery"]
+    }
+  },
+
+  "skills": [
+    {"label": "Frontend", "items": "React, TypeScript, JavaScript, React Query, Tailwind CSS"},
+    {"label": "Backend", "items": "C#, ASP.NET Core Web API, Node.js, Express, REST"},
+    {"label": "Data", "items": "SQL Server (T-SQL), PostgreSQL"},
+    {"label": "Quality", "items": "Automated testing, code review, CI gates"},
+    {"label": "Delivery", "items": "Git, GitHub Actions, Azure DevOps, Agile"},
+    {"label": "AI", "items": "AI-assisted development with every change reviewed before merge"}
+  ],
+
+  "experience": [
+    {
+      "title": "Software Developer",
+      "org": "Example Co",
+      "dates": "Mar 2024 – Present",
+      "context": "Full stack development on a customer booking platform",
+      "bullets": [
+        {"label": "Full stack features:", "text": "I build features end to end: React + TypeScript screens on ASP.NET Core Web API endpoints backed by SQL Server."},
+        {"label": "Production defects:", "text": "A caching bug was showing stale prices. I traced the root cause, fixed it and added tests so it didn't recur."},
+        {"label": "Team delivery:", "text": "I wrote endpoint templates the team now uses, making delivery faster and more consistent."}
+      ]
+    },
+    {
+      "title": "Junior Developer",
+      "org": "Sample Digital",
+      "dates": "Feb 2022 – Feb 2024",
+      "bullets": [
+        {"text": "Built responsive React interfaces from Figma designs and maintained REST APIs in Node.js."}
+      ]
+    }
+  ],
+
+  "projects": [
+    {
+      "name": "BookIt",
+      "link": "bookit.example.com",
+      "tagline": "Booking platform",
+      "bullets": [
+        {"label": "Platform:", "text": "A local studio took bookings by phone. I built a React and Node.js platform with Stripe payments and email reminders."},
+        {"label": "Delivery:", "text": "Dev and production environments deployed by GitHub Actions, gated by automated tests."}
+      ]
+    }
+  ],
+
+  "education": [
+    "Bachelor of Information Technology, Example University (2021)"
+  ],
+  "certifications": [
+    "Microsoft AZ-900 (2023)"
+  ],
+  "volunteering": [
+    "IT volunteer, Local Community Centre"
+  ],
+  "referees_on_request": true
+}

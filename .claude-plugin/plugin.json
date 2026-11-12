@@ -1,0 +1,13 @@
+{
+  "name": "aussie-job-hunt",
+  "version": "1.0.0",
+  "description": "Find, score and apply to jobs on SEEK and LinkedIn in Australia, write Australian-standard resumes and cover letters, and track every application in Excel.",
+  "author": {
+    "name": "AmalJose-01",
+    "url": "https://github.com/AmalJose-01"
+  },
+  "homepage": "https://github.com/AmalJose-01/aussie-job-hunt",
+  "repository": "https://github.com/AmalJose-01/aussie-job-hunt",
+  "license": "MIT",
+  "keywords": ["job-hunt", "australia", "seek", "linkedin", "resume", "cover-letter"]
+}
