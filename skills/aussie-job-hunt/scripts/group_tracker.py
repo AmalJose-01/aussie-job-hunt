@@ -32,7 +32,7 @@ rows = [r for r in src.iter_rows(min_row=2) if any(c.value not in (None, "") for
 
 # master sheet tidy-up: header frozen, filter over every row
 src.freeze_panes = "A2"
-src.auto_filter.ref = f"A1:L{src.max_row}"
+src.auto_filter.ref = f"A1:M{src.max_row}"
 src.sheet_properties.tabColor = "1F4E78"
 
 import datetime as _dt
@@ -73,7 +73,7 @@ for name, statuses, colour in GROUPS:
     for k, w in widths.items():
         ws.column_dimensions[k].width = w
     ws.freeze_panes = "A2"
-    ws.auto_filter.ref = f"A1:L{max(2, len(picked) + 1)}"
+    ws.auto_filter.ref = f"A1:M{max(2, len(picked) + 1)}"
 
 # Summary: counts per group (live formulas on the master sheet)
 s = wb["Summary"]

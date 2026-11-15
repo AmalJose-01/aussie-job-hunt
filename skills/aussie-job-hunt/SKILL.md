@@ -29,7 +29,9 @@ If `profile.json` is missing, stop and help the user create it before doing anyt
 - **Spelling:** Australian English: organisation, modernise, authorisation, optimise, analyse, behaviour, colour, centre, licence (noun), program (software), enrol.
 - **Dates:** 12 Nov 2026 or November 2026, never 11/12/2026. Phone as 04xx xxx xxx or +61 4xx xxx xxx.
 - **Tone:** direct, plain, modest and confident. No American hype ("rockstar", "ninja", "passionate self-starter", "results-driven", "synergy"), no exclamation marks, short sentences, first person.
-- **STAR achievements:** situation or task, what the candidate did, the result.
+- **STAR achievements (cover letters):** situation or task, what the candidate did, the result.
+- **Resume bullets:** one short keyword line each (about 8–15 words), no bold labels and no full sentences, so a recruiter can skim them and an ATS can match them. Leave white space between bullets.
+- **ATS keywords (resume):** use the ad's exact words where they are true for the candidate. Name implied skills explicitly, e.g. "React (SPA)" for single-page apps, "relational database design" for SQL Server or MySQL work, "reporting queries", "Azure DevOps (Repos, Pipelines)". Put the soft skills ads ask for (communication, stakeholder engagement, ownership, continuous improvement) in the summary only when the profile supports them. An ATS matches words, not meaning.
 - **Resume:** reverse chronological; key points only; at most two pages with generous white space (recruiters spend 2–3 minutes per application). Short summary that does not state years of experience. No photo, date of birth, age, marital status, religion or nationality. A separate **Projects** section for side projects. "Referees: available on request".
 - **Cover letter:** contact line, date, "Dear Hiring Manager," or "Dear <Name>," (never "To whom it may concern"). Four short paragraphs:
   1. The role, where it was seen, and genuine interest in the role and organisation with a specific reason from the ad.
@@ -66,6 +68,9 @@ If `profile.json` is missing, stop and help the user create it before doing anyt
    - "Remote" roles sometimes require living in particular cities: check before applying.
 5. **Resume:** pick the closest variant from `profile.json` → `resume_variants` and build it:
    `python3 <this skill>/scripts/build_docs.py resume "$JOB_HUNT_DIR/profile.json" --variant <key> --out "$JOB_HUNT_DIR"`
+5b. **ATS check:** save the full job description to `$JOB_HUNT_DIR/jd.txt`, then run
+   `python3 <this skill>/scripts/ats_score.py <resume.docx> "$JOB_HUNT_DIR/jd.txt" "<Job Title>" --profile "$JOB_HUNT_DIR/profile.json"`
+   It gives an ATS-style keyword score out of 100 (hard skills 60, with required skills counting double those after "nice to have"/"desirable"; exact job title 10; soft skills 10; experience years 10; format 10) and lists matched keywords, keywords to add if true, honest gaps (from `never_claim`) and format problems. Show the user the score and missing keywords. If true keywords are missing, add them to `profile.json` (skills, summary or bullets) and rebuild; if the ad's key skills are honest gaps, address them in the cover letter instead. Never add a `never_claim` skill to raise the score. Record the score in the tracker's **ATS Score** column. This is an estimate like Jobscan, not any employer's real score; it differs from the 0–100 fit score in step 3.
 6. **Cover letter:** write a `letter.json` (see `examples/letter.example.json`) following the Australian standard above, then:
    `python3 <this skill>/scripts/build_docs.py letter <letter.json> --profile "$JOB_HUNT_DIR/profile.json" --out "$JOB_HUNT_DIR"`
 7. **PDF export (macOS + Word):** copy the .docx to a uniquely named temp file, open that copy in Word by AppleScript, `save as ... file format format PDF`, close it, then check the page count and headline with PDFKit. Word can keep an old document open and save it under a new name, so always verify the PDF text matches.
@@ -81,7 +86,7 @@ If `profile.json` is missing, stop and help the user create it before doing anyt
 
 ## Excel tracker
 
-`$JOB_HUNT_DIR/Job_Applications_Tracker.xlsx`, sheet **Applications** (the master log). Columns: Date, Company, Job Title, Source, Job URL, Location, Work Mode, Match Score, Resume Used, Cover Letter, Status, Notes.
+`$JOB_HUNT_DIR/Job_Applications_Tracker.xlsx`, sheet **Applications** (the master log). Columns: Date, Company, Job Title, Source, Job URL, Location, Work Mode, Match Score, Resume Used, Cover Letter, Status, Notes, ATS Score (column M; add the header if an older tracker lacks it).
 Status values: Submitted, Ready (not submitted), Needs user input, Skipped, Interview, Rejected, Offer.
 
 To log a row:

@@ -8,6 +8,7 @@ A [Claude Code](https://claude.com/claude-code) plugin for job hunting in Austra
 - **Score:** every job 0–100 from its full description: skills, seniority, location, eligibility and salary. You get a shortlist with honest gaps.
 - **Check eligibility:** citizenship, PR and clearance requirements, "remote but must live in…" rules, and Victorian Public Service ongoing roles.
 - **Write in the Australian style:** Australian spelling, STAR achievements, no hype, key selection criteria, two-page resumes with key points only.
+- **ATS check:** an ATS-style keyword score (0–100) for your resume against each job ad, like Jobscan. It lists matched keywords, true keywords you should add, honest gaps you should leave out, and format problems.
 - **Build documents:** resumes and cover letters as Word files from your `profile.json` (no extra Python packages needed).
 - **Apply in your browser:** through Claude in Chrome. Claude stops for logins, declarations and anything your profile doesn't answer.
 - **Track:** an Excel tracker with separate sheets for Submitted, Needs User Input, Ready, Skipped and Interviews & Outcomes.
@@ -33,11 +34,31 @@ You also need:
 3. Fill in `never_claim` with skills you don't have. Claude will never put them in a resume, letter or form.
 4. Ask Claude: "find jobs", "apply to this job <link>" or "build my resume".
 
+Check a resume against a job ad (save the ad text to `jd.txt` first):
+
+```
+python3 skills/aussie-job-hunt/scripts/ats_score.py ~/Documents/job-hunt/Alex_Citizen_fullstack_Resume.docx ~/Documents/job-hunt/jd.txt "Full Stack Developer" --profile ~/Documents/job-hunt/profile.json
+```
+
 Build a resume yourself:
 
 ```
 python3 skills/aussie-job-hunt/scripts/build_docs.py resume ~/Documents/job-hunt/profile.json --variant fullstack --out ~/Documents/job-hunt
 ```
+
+## How the ATS score works
+
+Most employer systems (PageUp, Workday, SuccessFactors) don't show you a score. They store your resume as text, and recruiters filter or rank by the ad's keywords. The score here imitates that:
+
+| Part | Points |
+|---|---|
+| Hard skills in the ad (required ones count double) | 60 |
+| Exact job title in your resume | 10 |
+| Soft skills the ad asks for | 10 |
+| Years of experience | 10 |
+| Format: contact details, headings, no tables or images, dates | 10 |
+
+An ATS matches words, not meaning. If you build React apps, also write "React (SPA)". If you design SQL Server databases, write "relational database design". Only add what's true. Skills on your `never_claim` list are always reported as honest gaps, never as keywords to add.
 
 ## Privacy and security
 
