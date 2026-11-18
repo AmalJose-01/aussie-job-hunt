@@ -4,7 +4,7 @@ A [Claude Code](https://claude.com/claude-code) plugin for job hunting in Austra
 
 ## What it does
 
-- **Search:** SEEK and LinkedIn, by your queries and locations, including remote roles.
+- **Search:** SEEK and LinkedIn for the job types and locations you choose (e.g. iOS, React, full stack or analyst roles in Ballarat, Melbourne or remote). On first run Claude asks for your roles, locations, work mode, seniority and pay, and saves them to `profile.json`; say "change my job search" to update them.
 - **Score:** every job 0–100 from its full description: skills, seniority, location, eligibility and salary. You get a shortlist with honest gaps.
 - **Check eligibility:** citizenship, PR and clearance requirements, "remote but must live in…" rules, and Victorian Public Service ongoing roles.
 - **Clean, consistent documents:** resumes and cover letters share one look (Calibri, navy name and section headings with a rule, grey contact line, compact bullets), built as .docx with no dependencies.
