@@ -61,6 +61,55 @@ Most employer systems (PageUp, Workday, SuccessFactors) don't show you a score. 
 
 An ATS matches words, not meaning. If you build React apps, also write "React (SPA)". If you design SQL Server databases, write "relational database design". Only add what's true. Skills on your `never_claim` list are always reported as honest gaps, never as keywords to add.
 
+### Running it
+
+Save the full job ad as a text file, then run:
+
+```bash
+python3 skills/aussie-job-hunt/scripts/ats_score.py <resume.docx|pdf> jd.txt "Job Title" --profile profile.json
+```
+
+Add `--json` for machine-readable output. The skill runs this for you after building each resume and records the score in the tracker's **ATS Score** column.
+
+### Example output
+
+```text
+ATS score: 82/100
+  hard skills (60)   42.0
+  job title (10)     10
+  soft skills (10)   10.0
+  experience (10)    10
+  format (10)        10.0
+Matched: Full stack, Azure, Agile, Testing, Integrations, Architecture
+Missing, can add if true: Kubernetes
+Missing, honest gap (never claim): AWS (required)
+Soft skills missing: -
+Format issues: none
+Exact job title in resume: yes
+Core developer skills missing: none
+```
+
+### What each line means
+
+| Line | What it tells you | What to do |
+|---|---|---|
+| **ATS score** and the five parts | The total out of 100 and how it splits across the table above. | Aim for 75 or more. The hard-skills part moves the score most. |
+| **Matched** | Skills from the ad that your resume already names. | Nothing; keep them. |
+| **Missing, can add if true** | Skills in the ad that your resume doesn't mention. "(required)" means the ad lists it before any "nice to have" section, so it counts double. | Add the ad's exact word to your summary, skills or a bullet, but only if it's true. Then rebuild and re-check. |
+| **Missing, honest gap (never claim)** | Missing skills on your `never_claim` list. | Never add these. Mention the gap plainly in the cover letter with how you'd close it. |
+| **Soft skills missing** | Soft skills the ad asks for (communication, stakeholder engagement, ownership and so on) that your resume doesn't show. | Add them to the summary where your profile supports them. |
+| **Format issues** | Parsing problems: missing email or phone, missing standard headings, no dates, tables or images. | Fix them; an ATS may drop content it can't read. |
+| **Exact job title in resume** | Whether the ad's title appears word for word (usually in the headline). | Use the ad's title in the headline when it fairly describes you. |
+| **Core developer skills missing** | Basic skills every developer resume should show, whatever the ad says: problem solving, communication, teamwork, attention to detail, debugging/troubleshooting, testing, Agile, Git and documentation. | Add them in plain words where true. |
+
+### Reading the score
+
+- **75–100:** a strong keyword match; apply.
+- **60–74:** add any true missing keywords, then decide. Honest gaps stay out.
+- **Below 60:** the ad's core skills probably aren't yours. Consider skipping, or explain the gaps in the cover letter.
+
+The ATS score measures keyword coverage only. It is separate from the 0–100 fit score the skill gives each job (skills, seniority, location, visa and salary). It's an estimate like Jobscan, not any employer's real score.
+
 ## Privacy and security
 
 - **Your data stays on your computer.** Your profile, resumes, cover letters and tracker live only in your workspace folder. The plugin has no server, no account and no database, so there's nothing to log in to and nothing that stores other people's data.
