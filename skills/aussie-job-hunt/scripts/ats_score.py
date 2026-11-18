@@ -40,6 +40,13 @@ SOFT = {
     "Autonomy / ownership": r"autonom|ownership|own(ed|ing)? ", "Collaboration": r"collaborat|team", "Documentation": r"document",
     "Continuous improvement": r"continuous improvement|improv", "Mentoring": r"mentor",
 }
+# Minimum developer skills every resume should show in plain words, whatever the ad says.
+CORE = {
+    "Problem solving": r"problem[- ]solv", "Communication": r"communicat", "Teamwork / collaboration": r"collaborat|team",
+    "Attention to detail": r"attention to detail|detail[- ]oriented", "Debugging / troubleshooting": r"debug|troubleshoot|root[- ]cause",
+    "Testing": r"\btest(ing|s|ed)?\b", "Agile": r"agile|scrum|kanban", "Git / version control": r"\bgit\b|github|version control",
+    "Documentation": r"document",
+}
 # Filled from profile.json -> never_claim when --profile is given. Missing ones are honest gaps.
 NEVER_CLAIM = []
 PREF_SPLIT = r"(nice to have|set you apart|desirable|preferred|bonus|advantage|highly regarded|would be great|plus)"
@@ -115,6 +122,7 @@ def score(resume_path, jd, title=""):
         "soft_missing": [s["skill"] for s in soft if not s["in_resume"]],
         "format_fail": [k for k, v in fmt.items() if not v],
         "exact_title_in_resume": exact_title,
+        "core_missing": [k for k, p in CORE.items() if not found(p, rt)],
     }
 
 
@@ -140,3 +148,4 @@ if __name__ == "__main__":
         print("Soft skills missing:", ", ".join(r["soft_missing"]) or "-")
         print("Format issues:", ", ".join(r["format_fail"]) or "none")
         print("Exact job title in resume:", "yes" if r["exact_title_in_resume"] else "no")
+        print("Core developer skills missing:", ", ".join(r["core_missing"]) or "none")

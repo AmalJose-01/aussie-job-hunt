@@ -22,12 +22,17 @@
   "resume_variants": {
     "fullstack": {
       "headline": "Full Stack Developer  |  React · TypeScript · Node.js · C# / .NET · SQL",
-      "summary": "Full stack developer building and supporting production web applications for retail and health. At Example Co I build React + TypeScript features on ASP.NET Core Web APIs and SQL Server. I've also designed and run a production booking platform end to end, with payments, authentication and CI/CD. I communicate clearly with stakeholders and take ownership from requirements to production."
+      "summary": "Full stack developer building and supporting production web applications for retail and health. At Example Co I build React + TypeScript features on ASP.NET Core Web APIs and SQL Server. I've also designed and run a production booking platform end to end, with payments, authentication and CI/CD. A strong problem solver with attention to detail, I communicate clearly with stakeholders, document my work and take ownership from requirements to production."
     },
     "frontend": {
       "headline": "Front End Developer  |  React · TypeScript · Accessibility · Testing",
       "summary": "Front end developer building fast, accessible React + TypeScript interfaces for retail and health. I care about clean components, accessibility and reliable releases.",
       "skills_order": ["Frontend", "Quality", "Backend", "Data", "Delivery"]
+    },
+    "product": {
+      "headline": "Full Stack Engineer  |  React · TypeScript · Node.js · Stripe · CI/CD",
+      "summary": "Full stack engineer who builds and runs products end to end. I designed and run a production booking platform with payments, authentication, automated tests and CI/CD, and build React + TypeScript features on ASP.NET Core at Example Co. A strong problem solver with attention to detail who communicates clearly.",
+      "projects_first": true
     }
   },
 
