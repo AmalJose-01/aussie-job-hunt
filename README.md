@@ -7,6 +7,7 @@ A [Claude Code](https://claude.com/claude-code) plugin for job hunting in Austra
 - **Search:** SEEK and LinkedIn, by your queries and locations, including remote roles.
 - **Score:** every job 0–100 from its full description: skills, seniority, location, eligibility and salary. You get a shortlist with honest gaps.
 - **Check eligibility:** citizenship, PR and clearance requirements, "remote but must live in…" rules, and Victorian Public Service ongoing roles.
+- **Clean, consistent documents:** resumes and cover letters share one look (Calibri, navy name and section headings with a rule, grey contact line, compact bullets), built as .docx with no dependencies.
 - **Write in the Australian style:** Australian spelling, STAR achievements, no hype, key selection criteria, two-page resumes with key points only.
 - **ATS check:** an ATS-style keyword score (0–100) for your resume against each job ad, like Jobscan. It lists matched keywords, true keywords you should add, honest gaps you should leave out, and format problems.
 - **Build documents:** resumes and cover letters as Word files from your `profile.json` (no extra Python packages needed).

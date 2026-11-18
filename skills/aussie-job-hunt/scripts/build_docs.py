@@ -10,8 +10,11 @@ All candidate details come from profile.json (see examples/profile.example.json)
 import argparse, datetime, json, os, sys, zipfile
 from xml.sax.saxutils import escape
 
-FONT, ACCENT, GREY = "Calibri", "1F3864", "555555"
-TEXT_W = 11906 - 2 * 1000  # A4 width minus margins (twips)
+# v4 look: Calibri, navy name and uppercase section headings with a navy rule,
+# grey headline/contact/dates, compact "•" bullets, 1.27 cm (720 twip) margins.
+FONT, ACCENT, GREY, LINK = "Calibri", "1F3864", "595959", "0563C1"
+MARGIN = 720
+TEXT_W = 11906 - 2 * MARGIN  # A4 width minus margins (twips)
 
 CONTENT_TYPES = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
@@ -31,21 +34,22 @@ RELS = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 
 STYLES = f"""<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
-<w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="{FONT}" w:hAnsi="{FONT}" w:cs="{FONT}" w:eastAsia="{FONT}"/><w:sz w:val="20"/><w:szCs w:val="20"/><w:color w:val="222222"/><w:lang w:val="en-AU"/></w:rPr></w:rPrDefault>
-<w:pPrDefault><w:pPr><w:spacing w:after="0" w:line="252" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults>
+<w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="{FONT}" w:hAnsi="{FONT}" w:cs="{FONT}" w:eastAsia="{FONT}"/><w:sz w:val="20"/><w:szCs w:val="20"/><w:lang w:val="en-AU"/></w:rPr></w:rPrDefault>
+<w:pPrDefault><w:pPr><w:spacing w:after="0"/></w:pPr></w:pPrDefault></w:docDefaults>
 <w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:rPr><w:rFonts w:ascii="{FONT}" w:hAnsi="{FONT}" w:cs="{FONT}"/><w:sz w:val="20"/><w:szCs w:val="20"/></w:rPr></w:style>
-<w:style w:type="paragraph" w:styleId="Title"><w:name w:val="Title"/><w:pPr><w:spacing w:after="20"/></w:pPr><w:rPr><w:b/><w:color w:val="{ACCENT}"/><w:sz w:val="44"/><w:szCs w:val="44"/></w:rPr></w:style>
-<w:style w:type="paragraph" w:styleId="Heading1"><w:name w:val="heading 1"/><w:pPr><w:keepNext/><w:spacing w:before="200" w:after="80"/>
-<w:pBdr><w:bottom w:val="single" w:sz="6" w:space="2" w:color="{ACCENT}"/></w:pBdr><w:outlineLvl w:val="0"/></w:pPr>
-<w:rPr><w:b/><w:caps/><w:color w:val="{ACCENT}"/><w:spacing w:val="10"/><w:sz w:val="22"/><w:szCs w:val="22"/></w:rPr></w:style>
-<w:style w:type="paragraph" w:styleId="ListBullet"><w:name w:val="List Bullet"/><w:basedOn w:val="Normal"/><w:pPr><w:numPr><w:numId w:val="1"/></w:numPr><w:spacing w:after="20"/><w:ind w:left="300" w:hanging="220"/></w:pPr></w:style>
+<w:style w:type="paragraph" w:styleId="Title"><w:name w:val="Title"/><w:pPr><w:spacing w:after="40"/></w:pPr><w:rPr><w:b/><w:bCs/><w:color w:val="{ACCENT}"/><w:sz w:val="48"/><w:szCs w:val="48"/></w:rPr></w:style>
+<w:style w:type="paragraph" w:styleId="Heading1"><w:name w:val="heading 1"/><w:basedOn w:val="Normal"/><w:pPr><w:keepNext/><w:spacing w:before="200" w:after="80"/>
+<w:pBdr><w:bottom w:val="single" w:sz="8" w:space="2" w:color="{ACCENT}"/></w:pBdr><w:outlineLvl w:val="0"/></w:pPr>
+<w:rPr><w:b/><w:bCs/><w:caps/><w:color w:val="{ACCENT}"/><w:sz w:val="22"/><w:szCs w:val="22"/></w:rPr></w:style>
+<w:style w:type="paragraph" w:styleId="ListParagraph"><w:name w:val="List Paragraph"/><w:basedOn w:val="Normal"/><w:qFormat/></w:style>
+<w:style w:type="character" w:styleId="Hyperlink"><w:name w:val="Hyperlink"/><w:rPr><w:color w:val="{LINK}"/><w:u w:val="single"/></w:rPr></w:style>
 </w:styles>"""
 
 NUMBERING = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <w:numbering xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
 <w:abstractNum w:abstractNumId="0"><w:multiLevelType w:val="singleLevel"/>
 <w:lvl w:ilvl="0"><w:start w:val="1"/><w:numFmt w:val="bullet"/><w:lvlText w:val="•"/><w:lvlJc w:val="left"/>
-<w:pPr><w:ind w:left="300" w:hanging="220"/></w:pPr><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri"/></w:rPr></w:lvl></w:abstractNum>
+<w:pPr><w:ind w:left="300" w:hanging="200"/></w:pPr><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri"/></w:rPr></w:lvl></w:abstractNum>
 <w:num w:numId="1"><w:abstractNumId w:val="0"/></w:num>
 </w:numbering>"""
 
@@ -53,7 +57,7 @@ TAB = "<w:r><w:tab/></w:r>"
 
 
 def run(text, b=False, i=False, color=None, sz=None):
-    rpr = ("<w:b/>" if b else "") + ("<w:i/>" if i else "")
+    rpr = ("<w:b/><w:bCs/>" if b else "") + ("<w:i/><w:iCs/>" if i else "")
     if color: rpr += f'<w:color w:val="{color}"/>'
     if sz: rpr += f'<w:sz w:val="{sz}"/><w:szCs w:val="{sz}"/>'
     rpr = f"<w:rPr>{rpr}</w:rPr>" if rpr else ""
@@ -70,19 +74,28 @@ def para(runs, style=None, jc=None, before=None, after=None, tab=False, keep=Fal
     return f"<w:p><w:pPr>{ppr}</w:pPr>{''.join(runs)}</w:p>"
 
 
-def heading(t): return para([run(t)], style="Heading1")
+def heading(t): return para([run(t.upper())], style="Heading1")
 
 
-def bullet(item):
+def rule():
+    """Empty paragraph carrying the navy heading rule (used under a cover letter's contact line)."""
+    return para([], style="Heading1")
+
+
+def bullet(item, after=70):
+    ppr = f'<w:pStyle w:val="ListParagraph"/><w:numPr><w:ilvl w:val="0"/><w:numId w:val="1"/></w:numPr><w:spacing w:after="{after}"/>'
     if isinstance(item, str):
-        return para([run(item)], style="ListBullet")
-    runs = [run(item["label"], b=True), run(" " + item["text"])] if item.get("label") else [run(item["text"])]
-    return para(runs, style="ListBullet")
+        runs = [run(item)]
+    elif item.get("label"):
+        runs = [run(item["label"] + " ", b=True), run(item["text"])]
+    else:
+        runs = [run(item["text"])]
+    return f"<w:p><w:pPr>{ppr}</w:pPr>{''.join(runs)}</w:p>"
 
 
 def role(title, org, dates, sub=None):
     out = [para([run(title, b=True, sz=21), run(f"  |  {org}" if org else "", sz=21), TAB, run(dates or "", color=GREY, sz=20)],
-                tab=True, before=120, after=20, keep=True)]
+                tab=True, before=140, after=20, keep=True)]
     if sub:
         out.append(para([run(sub, i=True, color=GREY)], after=40, keep=True))
     return out
@@ -94,31 +107,31 @@ class Doc:
     def __init__(self):
         self.body, self.links = [], []
 
-    def link(self, url, text, sz=19):
+    def link(self, url, text, sz=20):
         rid = f"rIdL{len(self.links) + 1}"
         self.links.append((rid, url))
-        return (f'<w:hyperlink r:id="{rid}" w:history="1"><w:r><w:rPr><w:color w:val="1F5C99"/><w:u w:val="single"/>'
+        return (f'<w:hyperlink r:id="{rid}" w:history="1"><w:r><w:rPr><w:rStyle w:val="Hyperlink"/>'
                 f'<w:sz w:val="{sz}"/><w:szCs w:val="{sz}"/></w:rPr><w:t xml:space="preserve">{escape(text)}</w:t></w:r></w:hyperlink>')
 
     def header(self, profile, headline):
         c = profile["contact"]
-        sep = run("  |  ", color=GREY, sz=19)
+        sep = run("  |  ", color=GREY, sz=20)
         parts = []
-        if c.get("phone"): parts.append(run(c["phone"], color=GREY, sz=19))
+        if c.get("phone"): parts.append(run(c["phone"], color=GREY, sz=20))
         if c.get("email"): parts.append(self.link(f"mailto:{c['email']}", c["email"]))
         if c.get("linkedin_url"): parts.append(self.link(c["linkedin_url"], c.get("linkedin_text") or "LinkedIn"))
-        if c.get("location"): parts.append(run(c["location"], color=GREY, sz=19))
+        if c.get("location"): parts.append(run(c["location"], color=GREY, sz=20))
         joined = []
         for i, p in enumerate(parts):
             if i: joined.append(sep)
             joined.append(p)
         self.body += [para([run(profile["name"])], style="Title"),
-                      para([run(headline, b=True, color=GREY, sz=22)], after=40),
-                      para(joined, after=60)]
+                      para([run(headline, b=True, color=GREY, sz=22)], after=20),
+                      para(joined, after=80)]
 
     def save(self, path, title, author):
         sect = ('<w:sectPr><w:pgSz w:w="11906" w:h="16838"/>'
-                '<w:pgMar w:top="900" w:right="1000" w:bottom="900" w:left="1000" w:header="500" w:footer="500" w:gutter="0"/></w:sectPr>')
+                f'<w:pgMar w:top="{MARGIN}" w:right="{MARGIN}" w:bottom="{MARGIN}" w:left="{MARGIN}" w:header="708" w:footer="708" w:gutter="0"/></w:sectPr>')
         document = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
                     '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" '
                     'xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'
@@ -153,7 +166,7 @@ def build_resume(profile, variant, out):
     d = Doc()
     d.header(profile, v["headline"])
     d.body.append(heading("Summary"))
-    d.body.append(para([run(v["summary"])], after=80))
+    d.body.append(para([run(v["summary"])], after=40))
 
     skills = profile.get("skills", [])
     order = v.get("skills_order")
@@ -163,34 +176,36 @@ def build_resume(profile, variant, out):
     if skills:
         d.body.append(heading("Skills"))
         for s in skills:
-            d.body.append(bullet({"label": s["label"] + ":", "text": s["items"]}))
+            d.body.append(bullet({"label": s["label"] + ":", "text": s["items"]}, after=30))
 
+    exp, proj = [], []
     if profile.get("experience"):
-        d.body.append(heading("Experience"))
+        exp.append(heading("Experience"))
         for job in profile["experience"]:
-            d.body += role(job["title"], job.get("org", ""), job.get("dates", ""), job.get("context"))
+            exp += role(job["title"], job.get("org", ""), job.get("dates", ""), job.get("context"))
             for b in job.get("bullets", []):
-                d.body.append(bullet(b))
-
+                exp.append(bullet(b))
     if profile.get("projects"):
-        d.body.append(heading("Projects"))
+        proj.append(heading("Projects"))
         for p in profile["projects"]:
-            d.body += role(p["name"], p.get("link", ""), p.get("tagline", ""))
-            for b in p.get("bullets", []):
-                d.body.append(bullet(b))
+            proj += role(p["name"], p.get("link", ""), p.get("tagline", ""))
+            for b in v.get("project_bullets", {}).get(p["name"], p.get("bullets", [])):
+                proj.append(bullet(b))
+    # A variant can lead with Projects when a side project is the strongest match for the job.
+    d.body += (proj + exp) if v.get("projects_first") else (exp + proj)
 
     edu = profile.get("education", []) + profile.get("certifications", [])
     if edu:
         d.body.append(heading("Education & Certifications"))
         for line in edu:
-            d.body.append(para([run(line)], after=60))
+            d.body.append(para([run(line)], after=40))
     if profile.get("volunteering"):
         d.body.append(heading("Volunteering"))
         for line in profile["volunteering"]:
-            d.body.append(para([run(line)], after=60))
+            d.body.append(para([run(line)], after=40))
     if profile.get("referees_on_request", True):
         d.body.append(heading("Referees"))
-        d.body.append(para([run("Available on request")], after=60))
+        d.body.append(para([run("Available on request")], after=40))
 
     prefix = profile.get("file_prefix") or profile["name"].replace(" ", "_")
     path = os.path.join(out, f"{prefix}_{variant}_Resume.docx")
@@ -200,7 +215,7 @@ def build_resume(profile, variant, out):
 def build_letter(letter, profile, out):
     d = Doc()
     d.header(profile, letter.get("headline") or next(iter(profile["resume_variants"].values()))["headline"])
-    d.body.append(para([], style="Heading1"))
+    d.body.append(rule())
     sp = dict(after=140)
     today = datetime.date.today()
     d.body.append(para([run(letter.get("date") or f"{today.day} {today:%B %Y}")], **sp))
