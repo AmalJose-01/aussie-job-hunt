@@ -15,8 +15,24 @@
   "never_claim": ["Java", "Python", "AWS", "Kubernetes", "Angular"],
 
   "search": {
-    "queries": ["full stack developer", "software engineer", "react developer", ".net developer"],
-    "locations": ["Melbourne-VIC", "Victoria-VIC", "remote"]
+    "roles": [
+      {"role": "Full stack developer", "queries": ["full stack developer", "software engineer"], "priority": 1},
+      {"role": "React developer", "queries": ["react developer", "front end developer"], "priority": 2},
+      {"role": "iOS developer", "queries": ["ios developer", "swift developer"], "priority": 2},
+      {"role": "Business analyst", "queries": ["business analyst", "data analyst"], "priority": 3}
+    ],
+    "locations": [
+      {"label": "Melbourne", "seek": "in-Melbourne-VIC", "linkedin": "Melbourne, Victoria, Australia"},
+      {"label": "All Victoria", "seek": "in-All-Victoria-VIC", "linkedin": "Victoria, Australia"}
+    ],
+    "remote": true,
+    "willing_to_relocate": false,
+    "work_modes": ["on-site", "hybrid", "remote"],
+    "seniority": "junior to mid (1-5 years)",
+    "employment_types": ["full time", "contract"],
+    "min_salary": 85000,
+    "exclude_keywords": ["senior", "lead", "principal", "clearance"],
+    "days": 7
   },
 
   "resume_variants": {
