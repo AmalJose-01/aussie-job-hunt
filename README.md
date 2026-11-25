@@ -122,6 +122,17 @@ The ATS score measures keyword coverage only. It is separate from the 0–100 fi
 
 The skill never invents skills, metrics or experience. It only uses what's in your profile, and it states real gaps plainly in cover letters. Australian employers check claims, and this keeps you safe.
 
+## Running the tests
+
+The tests use only the example profile, example letter and the template tracker, never your own data.
+
+```
+pip3 install -r requirements-dev.txt
+python3 -m pytest -q tests
+```
+
+GitHub Actions runs them on every push to `main` and on every pull request. The Excel-closing script is macOS-only, so its tests use a fake `osascript`.
+
 ## Licence
 
 MIT. See [LICENSE](LICENSE).
