@@ -59,6 +59,25 @@ Most employer systems (PageUp, Workday, SuccessFactors) don't show you a score. 
 | Years of experience | 10 |
 | Format: contact details, headings, no tables or images, dates | 10 |
 
+It works for any profession. The hard skills come from three places:
+
+1. **A built-in list for the ad's field.** There are lists for software and nursing roles, and the field is picked from the ad's wording. Any other field (trades, accounting, teaching, retail…) uses "general", which has no built-in list.
+2. **Your own skills.** Every item in `profile.json` → `skills` that the ad mentions counts, plus any extra terms you list in `ats.hard_skills`.
+3. **Keywords from the ad itself.** Phrases from the ad's bullet points, repeated phrases, acronyms (AHPRA, EWP, NDIS) and names (Xero, Excel). These count half as much as listed skills, so one odd phrase can't swing the score.
+
+You can tune it in `profile.json`:
+
+```json
+"ats": {
+  "field": "nursing",
+  "hard_skills": ["Medication administration", "Wound care"],
+  "core_skills": ["Communication", "Infection control"],
+  "ignore_keywords": ["Medical Ward"]
+}
+```
+
+`field` is `auto` (the default), `software`, `nursing` or `general`; `--field` on the command line overrides it. `hard_skills` is a list of phrases, or an object mapping a skill name to a regex. `core_skills` replaces the field's list of basic skills every resume should show. `ignore_keywords` drops ad keywords that aren't really skills.
+
 An ATS matches words, not meaning. If you build React apps, also write "React (SPA)". If you design SQL Server databases, write "relational database design". Only add what's true. Skills on your `never_claim` list are always reported as honest gaps, never as keywords to add.
 
 ### Running it
@@ -74,7 +93,7 @@ Add `--json` for machine-readable output. The skill runs this for you after buil
 ### Example output
 
 ```text
-ATS score: 82/100
+ATS score: 82/100  (field: software)
   hard skills (60)   42.0
   job title (10)     10
   soft skills (10)   10.0
@@ -86,7 +105,8 @@ Missing, honest gap (never claim): AWS (required)
 Soft skills missing: -
 Format issues: none
 Exact job title in resume: yes
-Core developer skills missing: none
+Keywords taken from the ad: software developer
+Core software skills missing: none
 ```
 
 ### What each line means
@@ -100,7 +120,8 @@ Core developer skills missing: none
 | **Soft skills missing** | Soft skills the ad asks for (communication, stakeholder engagement, ownership and so on) that your resume doesn't show. | Add them to the summary where your profile supports them. |
 | **Format issues** | Parsing problems: missing email or phone, missing standard headings, no dates, tables or images. | Fix them; an ATS may drop content it can't read. |
 | **Exact job title in resume** | Whether the ad's title appears word for word (usually in the headline). | Use the ad's title in the headline when it fairly describes you. |
-| **Core developer skills missing** | Basic skills every developer resume should show, whatever the ad says: problem solving, communication, teamwork, attention to detail, debugging/troubleshooting, testing, Agile, Git and documentation. | Add them in plain words where true. |
+| **Keywords taken from the ad** | Phrases the script pulled from the ad itself, on top of the built-in and profile skill lists. They appear in Matched or Missing like any other skill. | If one isn't a real skill, add it to `ats.ignore_keywords`. |
+| **Core *field* skills missing** | Basic skills every resume in that field should show, whatever the ad says. Software: problem solving, communication, teamwork, attention to detail, debugging/troubleshooting, testing, Agile, Git and documentation. Nursing: patient assessment, medication safety, infection control, documentation, communication, teamwork, person-centred care, escalation and time management. Other fields: communication, teamwork, problem solving, attention to detail and time management. | Add them in plain words where true. |
 
 ### Reading the score
 

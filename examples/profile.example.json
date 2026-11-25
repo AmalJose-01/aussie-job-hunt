@@ -13,6 +13,11 @@
   "notice_period": "2 weeks",
   "salary_expectation": "$95,000 + super, negotiable",
   "never_claim": ["Java", "Python", "AWS", "Kubernetes", "Angular"],
+  "ats": {
+    "field": "auto",
+    "hard_skills": [],
+    "ignore_keywords": []
+  },
 
   "search": {
     "roles": [
